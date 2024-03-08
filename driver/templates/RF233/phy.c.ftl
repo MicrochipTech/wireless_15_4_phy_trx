@@ -465,16 +465,16 @@ tal_trx_status_t set_trx_state(trx_cmd_t trx_cmd)
 		case RX_AACK_ON:
 		case TX_ARET_ON:
             trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_TRX_OFF);
-            switch_pll_on();
-            trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
+            //switch_pll_on();
+            //trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
             do{
                 trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_RX_ON);
             }while((((uint8_t)tal_get_trx_status())& 0x1fU) != ((uint8_t)RX_ON));			
 			break;
 
 		case TRX_OFF:
-			switch_pll_on();
-            trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
+			//switch_pll_on();
+            //trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
             do{
                 trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_RX_ON);
              }while((((uint8_t)tal_get_trx_status())& 0x1fU) != ((uint8_t)RX_ON));
@@ -502,7 +502,7 @@ tal_trx_status_t set_trx_state(trx_cmd_t trx_cmd)
 		case PLL_ON:
 		case RX_ON:
             trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_TRX_OFF);
-            switch_pll_on();
+            //switch_pll_on();
             do{
                trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_RX_AACK_ON);
             }while((((uint8_t)tal_get_trx_status())& 0x1fU) != ((uint8_t)RX_AACK_ON));
@@ -510,10 +510,10 @@ tal_trx_status_t set_trx_state(trx_cmd_t trx_cmd)
 			break;
 
 		case TRX_OFF:
-			switch_pll_on(); /* state change from TRX_OFF to
-			                  * RX_AACK_ON can be done directly, too
-			                  **/
-            trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
+			//switch_pll_on(); /* state change from TRX_OFF to
+			//                  * RX_AACK_ON can be done directly, too
+			//                  **/
+            //trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
 			do{
                trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_RX_AACK_ON);
             }while((((uint8_t)tal_get_trx_status())& 0x1fU) != ((uint8_t)RX_AACK_ON));
@@ -542,17 +542,17 @@ tal_trx_status_t set_trx_state(trx_cmd_t trx_cmd)
 		case RX_ON:
 		case RX_AACK_ON:
             trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_TRX_OFF);
-            switch_pll_on();
-            trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);           
+            //switch_pll_on();
+            //trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);           
             trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_TX_ARET_ON);
 			
 			break;
 
 		case TRX_OFF:
-			switch_pll_on(); /* state change from TRX_OFF to
-			                  * TX_ARET_ON can be done directly, too
-			                  **/
-            trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
+			//switch_pll_on(); /* state change from TRX_OFF to
+			//                  * TX_ARET_ON can be done directly, too
+			//                  **/
+            //trx_delay_micros(TRX_OFF_TO_PLL_ON_TIME_US);
 			trx_reg_write(RG_TRX_STATE, (uint8_t)CMD_TX_ARET_ON);
 			break;
 

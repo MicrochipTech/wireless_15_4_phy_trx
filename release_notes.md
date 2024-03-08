@@ -26,8 +26,7 @@ The following are the funcionalities of PHY layer
 
 ## Known Issues / Limitations
 
--   PDS support is not available in this component.
--	Host based Sleep feature is not supported.
+-	Deep Sleep feature is not implemented.
 
 ## Development Tools
 -	MPLAB X v6.15

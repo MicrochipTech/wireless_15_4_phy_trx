@@ -25,17 +25,57 @@ reference information.
 | Folder     | Description                                                       |
 | -----------| ------------------------------------------------------------------|
 | config     | Standalone IEEE 802.15.4 Physical Layer module |
+| docs|         User guide
 | drivers    | phy layer files     |
 
-# Configuring IEEE 802.15.4 PHY Component in MPLAB Harmony:
-- The IEEE 802.15.4 PHY component will be available under Wireless->Drivers->IEEE 802.15.4 in the Device Resources tab of MPLAB Harmony Window.
-- The Pins must be configured under Plugins option available in MCC.
-- The radio transceiver communication to host MCU happens via SPI. Hence the related SPI pins such as MOSI, MISO, SCK, SS must be configured as per the specific Host MCU.
-- The other transceiver pins that need to be configured are IRQ, RST, SLP_TR, CLKM, DIG1, DIG2, DIG3, DIG4. (please refer respective device/transceiver user guide for the pin numbers).
+- Refer to the section 2.5, Creating a New MCC Harmony Project in the [PIC32CXBZ2 Application Developer's Guide](https://onlinedocs.microchip.com/g/GUID-A5330D3A-9F51-4A26-B71D-8503A493DF9C).
+- Project Graph appears with some predefined component as shown in image below:
 
-____
+![](docs/img1.jpg)
 
-____
+- The IEEE 802.15.4 PHY component will appear under Wireless->Drivers->IEEE 802.15.4 in the Device Resources tab as shown in image below:
+
+![](docs/img2.png)
+
+- Select MiWi under “Wireless->Drivers” tab. Accept all Dependencies or satisfiers, by selecting "Yes". All the necessary components will be auto populated.
+- Please follow the steps in the following [link](docs/GUID-7C1892D2-1B15-442D-B7C8-6BE3C5CB1B72.md) to configure for MiWi.
+
+- Connect all the dependencies as shown in the image below:
+
+![](docs/img3.png)
+
+- Finally ensure that the project graph has all the components as depicted below.
+
+![](docs/img4.png)
+
+- Please follow the below steps for the “Configuration Options” changes to be done for Standalone PHY layer.
+- Go to Plugins>Pin Configuration. Refer below image for the Pin configurations. Provide the same “Custom Name”, “Function” and “Direction” as depicted in image below.
+
+![](docs/pinCfg1.png)
+
+![](docs/pinCfg2.png)
+
+- The “Module Pin Selections” in the “Configuration Options” gets automatically populated when the correct pin configurations are configured.
+- The Radio transceiver type can be changed by selecting the dropdown option availabel in “Select Transceiver Type”. At present only RF233 ans RF212B is supported.
+
+![](docs/phy_configuration.png)
+
+- Following are the EIC and Sercom5 configuration.
+
+![](docs/eic_configuration.png)
+
+![](docs/sercom_config.png)
+
+- Click on “Resource Management [MCC]” and click “Generate”.
+
+![](docs/mcc_code_gen.jpg)
+
+Note 1: After generating the code via MCC, please do the following configs. Right click on the project and go to properties. Select xc32-gcc. Under the option categories, select Preprocessing and Messages. 
+Double click on the Preprocessor macros and add the symbol, PHY_AT86RF212B/PHY_AT86RF233 depending on the preference. Remove ENABLE_NETWORK_FREEZER & Chimera_SOC symbol if MiWi is used.
+
+Note 2: To optimise the NVIC priority levels of different peripherals used such as EIC, SPI and TC, go to project source files>config>default>peripheral>plib_nvic.c, change the NVIC priority as shown in the image below:
+
+![](docs/nvic_priority.png)
 
 [![Follow us on Youtube](https://img.shields.io/badge/Youtube-Follow%20us%20on%20Youtube-red.svg)](https://www.youtube.com/user/MicrochipTechnology)
 [![Follow us on LinkedIn](https://img.shields.io/badge/LinkedIn-Follow%20us%20on%20LinkedIn-blue.svg)](https://www.linkedin.com/company/microchip-technology)
