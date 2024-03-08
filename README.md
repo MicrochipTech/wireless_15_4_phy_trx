@@ -37,8 +37,8 @@ reference information.
 
 ![](docs/img2.png)
 
-- Select MiWi under “Wireless->Drivers” tab. Accept all Dependencies or satisfiers, by selecting "Yes". All the necessary components will be auto populated.
-- Please follow the steps in the following [link](docs/GUID-7C1892D2-1B15-442D-B7C8-6BE3C5CB1B72.md) to configure for MiWi.
+- Select MiWi (if MiWi protocol is used as higher layer) under “Wireless->Drivers” tab. Accept all Dependencies or satisfiers, by selecting "Yes". All the necessary components will be auto populated.
+- Please follow the steps in the following [link](https://github.com/MicrochipTech/MiWi/blob/main/docs/GUID-32628D58-8B41-490F-8DA4-520C34856980.md) to configure for MiWi.
 
 - Connect SERCOM5 and TC0 dependencies as shown in the image below:
 
@@ -77,15 +77,11 @@ Note 2: To optimise the NVIC priority levels of different peripherals used such 
 
 ![](docs/nvic_priority.PNG)
 
-Note 3: In the file miwi_app.c replace #include "phy.h" with #include "../../../driver/IEEE_802154_PHY/phy/inc/phy.h", if build error occurs.
+Note 3: In app.c file replace "appData.appQueue = xQueueCreate( 64, sizeof(APP_Msg_T) );" with "appData.appQueue = xQueueCreate( 5, sizeof(APP_Msg_T) );"
 
-Note 4: In app.c file replace "appData.appQueue = xQueueCreate( 64, sizeof(APP_Msg_T) );" with "appData.appQueue = xQueueCreate( 5, sizeof(APP_Msg_T) );"
+Note 4: The following applies if MiWi protocol is used as higher layer : In the file tasks.c replace "#define TASK_MIWI_STACK_SIZE (8 *1024 / sizeof(portSTACK_TYPE))" with "#define TASK_MIWI_STACK_SIZE (2 *1024 / sizeof(portSTACK_TYPE))"
 
-Note 5: The following applies if MiWi protocol is used as higher layer : In the file tasks.c replace "#define TASK_MIWI_STACK_SIZE (8 *1024 / sizeof(portSTACK_TYPE))" with "#define TASK_MIWI_STACK_SIZE (2 *1024 / sizeof(portSTACK_TYPE))"
-
-Note 6: The size of lAPP_Tasks should be changed to 512 in task.c file. 
-
-Note 7: In FreeRTOSConfig.h the value of configTOTAL_HEAP_SIZE should be changed depending on the availability of RAM in Host MCU.
+Note 5: The size of lAPP_Tasks should be changed to 512 in task.c file. 
 
 [![Follow us on Youtube](https://img.shields.io/badge/Youtube-Follow%20us%20on%20Youtube-red.svg)](https://www.youtube.com/user/MicrochipTechnology)
 [![Follow us on LinkedIn](https://img.shields.io/badge/LinkedIn-Follow%20us%20on%20LinkedIn-blue.svg)](https://www.linkedin.com/company/microchip-technology)
