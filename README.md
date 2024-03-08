@@ -46,25 +46,25 @@ reference information.
 
 - Finally ensure that the project graph has all the components as depicted below.
 
-![](docs/img4.png)
+![](docs/img4.PNG)
 
 - Please follow the below steps for the “Configuration Options” changes to be done for Standalone PHY layer.
 - Go to Plugins>Pin Configuration. Refer below image for the Pin configurations. Provide the same “Custom Name”, “Function” and “Direction” as depicted in image below.
 
 ![](docs/pinCfg1.png)
 
-![](docs/pinCfg2.png)
+![](docs/pinCfg2.PNG)
 
 - The “Module Pin Selections” in the “Configuration Options” gets automatically populated when the correct pin configurations are configured.
 - The Radio transceiver type can be changed by selecting the dropdown option availabel in “Select Transceiver Type”. At present only RF233 ans RF212B is supported.
 
-![](docs/phy_configuration.png)
+![](docs/phy_configuration.PNG)
 
 - Following are the EIC and Sercom5 configuration.
 
 ![](docs/eic_configuration.png)
 
-![](docs/sercom_config.png)
+![](docs/sercom_config.PNG)
 
 - Click on “Resource Management [MCC]” and click “Generate”.
 
@@ -75,7 +75,7 @@ Double click on the Preprocessor macros and add the symbol, PHY_AT86RF212B/PHY_A
 
 Note 2: To optimise the NVIC priority levels of different peripherals used such as EIC, SPI and TC, go to project source files>config>default>peripheral>plib_nvic.c, change the NVIC priority as shown in the image below:
 
-![](docs/nvic_priority.png)
+![](docs/nvic_priority.PNG)
 
 [![Follow us on Youtube](https://img.shields.io/badge/Youtube-Follow%20us%20on%20Youtube-red.svg)](https://www.youtube.com/user/MicrochipTechnology)
 [![Follow us on LinkedIn](https://img.shields.io/badge/LinkedIn-Follow%20us%20on%20LinkedIn-blue.svg)](https://www.linkedin.com/company/microchip-technology)
