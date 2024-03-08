@@ -28,6 +28,7 @@ reference information.
 | docs|         User guide
 | drivers    | phy layer files     |
 
+- Clone the [Standalone PHY](https://github.com/MicrochipTech/wireless_15_4_phy_trx) repo to user's local Harmony Repo.
 - Refer to the section 2.5, Creating a New MCC Harmony Project in the [PIC32CXBZ2 Application Developer's Guide](https://onlinedocs.microchip.com/g/GUID-A5330D3A-9F51-4A26-B71D-8503A493DF9C).
 - Project Graph appears with some predefined component as shown in image below:
 
