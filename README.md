@@ -77,6 +77,16 @@ Note 2: To optimise the NVIC priority levels of different peripherals used such 
 
 ![](docs/nvic_priority.PNG)
 
+Note 3: In the file miwi_app.c replace #include "phy.h" with #include "../../../driver/IEEE_802154_PHY/phy/inc/phy.h", if build error occurs.
+
+Note 4: In app.c file replace "appData.appQueue = xQueueCreate( 64, sizeof(APP_Msg_T) );" with "appData.appQueue = xQueueCreate( 5, sizeof(APP_Msg_T) );"
+
+Note 5: The following applies if MiWi protocol is used as higher layer : In the file tasks.c replace "#define TASK_MIWI_STACK_SIZE (8 *1024 / sizeof(portSTACK_TYPE))" with "#define TASK_MIWI_STACK_SIZE (2 *1024 / sizeof(portSTACK_TYPE))"
+
+Note 6: The size of lAPP_Tasks should be changed to 512 in task.c file. 
+
+Note 7: In FreeRTOSConfig.h the value of configTOTAL_HEAP_SIZE should be changed depending on the availability of RAM in Host MCU.
+
 [![Follow us on Youtube](https://img.shields.io/badge/Youtube-Follow%20us%20on%20Youtube-red.svg)](https://www.youtube.com/user/MicrochipTechnology)
 [![Follow us on LinkedIn](https://img.shields.io/badge/LinkedIn-Follow%20us%20on%20LinkedIn-blue.svg)](https://www.linkedin.com/company/microchip-technology)
 [![Follow us on Facebook](https://img.shields.io/badge/Facebook-Follow%20us%20on%20Facebook-blue.svg)](https://www.facebook.com/microchiptechnology/)

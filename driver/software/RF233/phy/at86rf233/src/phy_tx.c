@@ -233,7 +233,7 @@ void send_frame(PHY_CSMAMode_t csmaMode, bool txRetries)
 	trx_delay_micros(1);
     TRX_SLP_TR_LOW();
 
-    uint8_t context = 0;
+    uint8_t context = 0U;
     trxEIC_waitTimer = SYS_TIME_CallbackRegisterUS(&trxEIC_waitTimerCb, (uintptr_t)&context, 54000, SYS_TIME_SINGLE);
     if(trxEIC_waitTimer == SYS_TIME_HANDLE_INVALID)
     {
@@ -278,7 +278,7 @@ void handle_tx_end_irq(bool underrun_occured)
 				TRX_SLP_TR_HIGH();
 				trx_delay_micros(1);
 				TRX_SLP_TR_LOW();
-				uint8_t context = 0;
+				uint8_t context = 0U;
     			trxEIC_waitTimer = SYS_TIME_CallbackRegisterUS(&trxEIC_waitTimerCb, (uintptr_t)&context, 54000, SYS_TIME_SINGLE);
     			if(trxEIC_waitTimer == SYS_TIME_HANDLE_INVALID)
     			{
