@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Module name="standalone_PHY" id="44a77894-441c-466f-8341-0d044f2567c0" version="1.0.0">
+    <ConfigRoot path="config/module.py"/>
+</Module>
