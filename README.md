@@ -12,8 +12,7 @@ MPLAB® Harmony 3 is an extension of the MPLAB® ecosystem for creating embedded
 - [Microchip MPLAB® Harmony Pages](https://microchip-mplab-harmony.github.io/)
 
 This repository contains the MPLAB® Harmony 3 Module for Standalone IEEE 802.15.4 Physical Layer that provide an interface to the microcontrollers (like SAML21, SAMD21) to access the transceiver functionality of radio transceivers like AT86RF233 or AT86RF212B. 
-With the help of PHY layer module user can enable various functionaities of the transceiver. Refer to
-the following links for release notes, training materials, and interface
+With the help of PHY layer module user can enable various functionaities of the transceiver.
 reference information.
 
 
@@ -25,7 +24,7 @@ reference information.
 | Folder     | Description                                                       |
 | -----------| ------------------------------------------------------------------|
 | config     | Standalone IEEE 802.15.4 Physical Layer module |
-| docs|         User guide
+| docs|         [User guide](./README.md)
 | drivers    | phy layer files     |
 
 - Clone the [Standalone PHY](https://github.com/MicrochipTech/wireless_15_4_phy_trx) repo to user's local Harmony Repo.
@@ -41,7 +40,7 @@ reference information.
 - Select MiWi under “Wireless->Drivers” tab. Accept all Dependencies or satisfiers, by selecting "Yes". All the necessary components will be auto populated.
 - Please follow the steps in the following [link](docs/GUID-7C1892D2-1B15-442D-B7C8-6BE3C5CB1B72.md) to configure for MiWi.
 
-- Connect all the dependencies as shown in the image below:
+- Connect SERCOM5 and TC0 dependencies as shown in the image below:
 
 ![](docs/img3.png)
 
@@ -52,7 +51,7 @@ reference information.
 - Please follow the below steps for the “Configuration Options” changes to be done for Standalone PHY layer.
 - Go to Plugins>Pin Configuration. Refer below image for the Pin configurations. Provide the same “Custom Name”, “Function” and “Direction” as depicted in image below.
 
-![](docs/pinCfg1.png)
+![](docs/PinCfg1.PNG)
 
 ![](docs/pinCfg2.PNG)
 
@@ -63,7 +62,7 @@ reference information.
 
 - Following are the EIC and Sercom5 configuration.
 
-![](docs/eic_configuration.png)
+![](docs/eic_configuration.PNG)
 
 ![](docs/sercom_config.PNG)
 
@@ -71,7 +70,7 @@ reference information.
 
 ![](docs/mcc_code_gen.jpg)
 
-Note 1: After generating the code via MCC, please do the following configs. Right click on the project and go to properties. Select xc32-gcc. Under the option categories, select Preprocessing and Messages. 
+Note 1: After generating the code via MCC, make sure to implement the following changes. Right click on the project and go to properties. Select xc32-gcc. Under the option categories, select Preprocessing and Messages. 
 Double click on the Preprocessor macros and add the symbol, PHY_AT86RF212B/PHY_AT86RF233 depending on the preference. Remove ENABLE_NETWORK_FREEZER & Chimera_SOC symbol if MiWi is used.
 
 Note 2: To optimise the NVIC priority levels of different peripherals used such as EIC, SPI and TC, go to project source files>config>default>peripheral>plib_nvic.c, change the NVIC priority as shown in the image below:
