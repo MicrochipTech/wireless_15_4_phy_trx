@@ -30,13 +30,12 @@
 
 /* === INCLUDES ============================================================ */
 
-#include "../../../resources/buffer/inc/bmm.h"
-#include "../../../resources/queue/inc/qmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/queue/inc/qmm.h"
 #include "../../inc/phy_constants.h"
 #include "phy_trx_reg_access.h"
 #include "../../inc/phy.h"
 #include "at86rf.h"
-#include "xc.h"
 #include "definitions.h"
 
 /**
@@ -517,7 +516,6 @@ void trx_ed_irq_handler_cb(void);
 void tal_trx_wakeup(void);
 void trx_delay_micros(uint32_t us);
 void trx_delay_millis(uint32_t ms);
-void trx_delay_loop(void *hw, uint32_t cycles);
 void trx_irq_flag_clear(void);
 PHY_Retval_t tal_dump_registers(uint16_t start_addr, uint16_t end_addr,
 		uint8_t *value);

@@ -22,7 +22,9 @@
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
 -->
+#include "stack_config.h"
 #include "driver/IEEE_802154_PHY/pal/inc/pal.h"
 #include "driver/IEEE_802154_PHY/phy/inc/phy.h"
 #include "driver/IEEE_802154_PHY/phy/inc/phy_tasks.h"
+#include "driver/IEEE_802154_PHY/phy/at86rf/inc/phy_internal.h"
 #include "framework_defs.h"

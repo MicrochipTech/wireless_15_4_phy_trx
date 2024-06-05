@@ -28,9 +28,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "../../../pal/inc/pal.h"
-#include "../../../resources/buffer/inc/bmm.h"
-#include "../../../resources/queue/inc/qmm.h"
+#include "config/default/driver/IEEE_802154_PHY/pal/inc/pal.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/queue/inc/qmm.h"
 #include "config/default/configuration.h"
 #include "app_config.h"
 

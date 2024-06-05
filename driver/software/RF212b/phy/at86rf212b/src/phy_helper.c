@@ -473,9 +473,21 @@ PHY_Retval_t PHY_GetTrxConfig(PHY_ConfigParam_t parameter, uint8_t *paramValue)
 }
 
 
+/*
+ * \brief to configure the reduced power consumption mode
+ *
+ * \param rpc_mode_sel value to be written in the TRX_RPC bits
+ *
+ * \return PHY_SUCCESS if the register is written correctly
+ *         PHY_FAILURE otherwise
+ */
 
-
-
+PHY_Retval_t PHY_ConfigRxRPCMode(uint8_t rxRPCEnable)
+{
+	// Reduced power consumption mode (RPC) is not supported in sub Ghz band transceiver.
+	return PHY_UNSUPPORTED_ATTRIBUTE;
+    
+}
 
 
 /*

@@ -238,7 +238,7 @@ buffer_t* bmm_buffer_alloc(uint8_t size);
 */
 
 void bmm_buffer_free(buffer_t *pbuffer);
-
+uint8_t bmm_PercentageOfFreeBuffers(void);
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

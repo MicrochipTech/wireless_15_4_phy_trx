@@ -44,8 +44,9 @@
 /* ************************************************************************** */
 #include <string.h>
 #include <stdio.h>
-#include "../../pal/inc/pal.h"
 #include "system/time/sys_time.h"
+#include "config/default/driver/IEEE_802154_PHY/pal/inc/pal.h"
+
 
 
 /* ************************************************************************** */
@@ -392,17 +393,59 @@ PAL_Status_t PAL_GetRandomNumber(uint8_t *rnOutput, uint16_t rnLength)
    end += rnLength;
    for (uint16_t i = 0; i < (rnLength / sizeof(uint32_t)); i++)
    {
+#ifndef TRNG_H
+       random_num = rand();
+#else
        random_num = TRNG_ReadData();
+#endif
        (void)memcpy((uint8_t *)rnOutput, (uint8_t *)&random_num, sizeof(uint32_t));
        rnOutput += sizeof(uint32_t);
    }
    
    if ((remBytes = (rnLength % sizeof(uint32_t))) != 0U){
+#ifndef TRNG_H
+       random_num = rand();
+#else
        random_num = TRNG_ReadData();
+#endif
        (void)memcpy((uint8_t *)rnOutput, (uint8_t *)&random_num, remBytes);
    }
 
     return PAL_SUCCESS;
+}
+
+void delayms(uint32_t milliseconds) {
+    // Assuming each loop iteration takes 1 cycle (this is architecture and compiler dependent),
+    // and the CPU clock frequency is 48MHz, the number of cycles per millisecond would be:
+    // 48,000,000 cycles per second / 1,000 milliseconds per second = 48,000 cycles per millisecond
+    // The actual number of cycles per loop iteration will likely be more than 1,
+    // so delayCycles needs to be calibrated to achieve the desired delay.
+    const uint32_t cyclesPerMillisecond = 48000; // This is an approximation and needs calibration
+    volatile uint32_t delayCycles = milliseconds * cyclesPerMillisecond;
+
+    // For loop to create the delay
+    for(volatile uint32_t i = 0; i < delayCycles; i++) {
+        // Empty loop to waste time
+        __asm("NOP"); // Optional: NOP instruction to prevent loop optimization by some compilers
+    }
+}
+
+// Function to provide delay in microseconds
+void delayus(uint32_t microsecs) {
+    // Loop variable
+    volatile uint32_t count;
+
+    // The number of loops to wait for, adjust this value as per your MCU architecture and clock
+    // This value is an approximation and should be calibrated for accuracy
+    // For a 48MHz clock, one loop iteration (without any other instructions) can be in the order of a few CPU cycles
+    // Assuming 1 loop iteration is approximately 1 microsecond, this will need to be calibrated
+    uint32_t loops = microsecs;
+
+    // Perform the delay loop
+    for (count = 0; count < loops; count++) {
+        // Empty loop to create delay
+        __asm__("nop"); // Optional: single cycle no-operation instruction
+    }
 }
 
 /**

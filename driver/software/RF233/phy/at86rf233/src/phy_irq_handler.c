@@ -31,8 +31,8 @@
 #include "../../../pal/inc/pal.h"
 #include "../../../phy/inc/phy.h"
 #include "../../../phy/inc/ieee_phy_const.h"
-#include "../../../resources/buffer/inc/bmm.h"
-#include "../../../resources/queue/inc/qmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/queue/inc/qmm.h"
 #include "../../../phy/at86rf/inc/phy_irq_handler.h"
 #include "../../at86rf/inc/phy_rx.h"
 #include "../../at86rf/inc/at86rf.h"
@@ -40,6 +40,7 @@
 #include "../../../phy/inc/phy_constants.h"
 #include "../../at86rf/inc/phy_tx.h"
 #include "../../../phy/at86rf/inc/phy_trx_reg_access.h"
+#include "config/default/driver/IEEE_802154_PHY/phy/at86rf/inc/phy_irq_handler.h"
 #include "../../../phy/inc/phy_tasks.h"
 
 /* === TYPES =============================================================== */

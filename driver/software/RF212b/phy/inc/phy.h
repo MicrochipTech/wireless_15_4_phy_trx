@@ -253,7 +253,11 @@ typedef enum phy_return_value_tag {
 	/* TRX received no ack for the previously sent packet*/	
     PHY_NO_ACK                  = 0x8C, 
 	/* Transmit is failed due to Channel access failure*/
-    PHY_CHANNEL_ACCESS_FAILURE  = 0x8D  
+    PHY_CHANNEL_ACCESS_FAILURE  = 0x8D,
+  /* 15.4 subsytem request is aborted due to BT subsystem High priority request */                                 
+      PHY_RF_REQ_ABORTED          = 0x83,
+  /* RF is not available for 802.15.4 subsytem*/
+      PHY_RF_UNAVAILABLE          = 0x84
             
 }PHY_Retval_t;
 
@@ -1634,6 +1638,45 @@ PHY_Retval_t PHY_ConfigRxSensitivity(uint8_t pdtLevel);
 */
 PHY_Retval_t PHY_ConfigRxPromiscuousMode(bool promCtrl);
 
+
+// *****************************************************************************
+/*
+  Function:
+    PHY_Retval_t PHY_ConfigRxRPCMode(uint8_t rxRPCEnable)
+
+  Summary:
+    Configures the reduced power consumption mode
+
+  Description:
+    The function is used to configure the reduced power consumption mode of the receiver
+ 
+  Precondition:
+    PHY_Init() should have been called before calling this function.
+ 
+  Parameters:
+    rxRPCEnable - 0x01  -  to enable the rx RPC mode
+                  0x00 -  to disable the rx RPC mode
+ 
+
+  Returns:
+    PHY_Retval_t - PHY_SUCCESS  If trx is configured correctly
+ *                 PHY_FAILURE  otherwise
+  Example:
+    <code>
+    PHY_Retval_t retVal = PHY_FAILURE;
+    uint8_t rxRPCEnable = 0x01;
+ 
+    retVal = PHY_ConfigRxRPCMode(rxRPCEnable);
+    if(PHY_SUCCESS == retVal)
+    {
+        Trx is configured to reduced power consumption mode
+    }   
+    </code>
+
+  Remarks:
+    None 
+*/
+PHY_Retval_t PHY_ConfigRxRPCMode(uint8_t rxRPCEnable);
 
 // *****************************************************************************
 /*

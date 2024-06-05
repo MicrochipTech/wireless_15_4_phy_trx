@@ -28,12 +28,16 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../../pal/inc/pal.h"
-#include "../../../resources/buffer/inc/bmm.h"
-#include "../../../resources/queue/inc/qmm.h"
-#include "../../../phy/at86rf/inc/phy_internal.h"
+#include "config/default/driver/IEEE_802154_PHY/pal/inc/pal.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/queue/inc/qmm.h"
+#ifdef RF215V3
+#include "config/default/driver/IEEE_802154_PHY/phy/at86rf215/inc/tal_internal.h"
+#else
+#include "config/default/driver/IEEE_802154_PHY/phy/at86rf/inc/phy_internal.h"
+#endif
 #include "app_config.h"
-#include "../../../phy/inc/phy.h"
+#include "config/default/driver/IEEE_802154_PHY/phy/inc/phy.h"
 
 
 
@@ -279,6 +283,9 @@ void bmm_buffer_free(buffer_t *pbuffer)
     qmm_queue_append(&free_large_buffer_q, pbuffer);
 #endif
 }
-
+uint8_t bmm_PercentageOfFreeBuffers(void)
+{
+	return free_large_buffer_q.size;
+}
 #endif /* (TOTAL_NUMBER_OF_BUFS > 0) */
 /* EOF */

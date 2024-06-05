@@ -32,7 +32,7 @@
 // Section: File includes
 // *****************************************************************************
 // *****************************************************************************
-#include "../../buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
 
 /* 
  * Queue Management: provides services for creating and maintaining the queues.

@@ -36,8 +36,8 @@
 #include "../../at86rf/inc/phy_pib.h"
 #include "../../at86rf/inc/phy_irq_handler.h"
 #include "../../at86rf/inc/at86rf.h"
-#include "../../../resources/buffer/inc/bmm.h"
-#include "../../../resources/queue/inc/qmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/queue/inc/qmm.h"
 #include "../../at86rf/inc/phy_rx.h"
 #include "../../at86rf/inc/phy_tx.h"
 #include "../../../phy/inc/phy_constants.h"
@@ -46,7 +46,6 @@
 #include "../../../phy/at86rf/inc/phy_internal.h"
 #include"definitions.h"
 
-extern SYS_TIME_HANDLE trxEIC_waitTimer;
 /* === TYPES =============================================================== */
 
 /* === MACROS ============================================================== */
@@ -211,10 +210,6 @@ void PHY_TaskHandler(void)
 	/* Handle the TAL state machines */
 	switch (phy_info.tal_state) {
 
-	case PHY_TX_AUTO:
-        (void)trx_reg_read(RG_IRQ_STATUS);
-        PHY_TxDoneCallback(PHY_FAILURE, mac_frame_ptr);
-        break;
 
 	case PHY_IDLE:
         
@@ -262,10 +257,6 @@ void PHY_TaskHandler(void)
 
  void TAL_TaskHandler(void)
  {
-	if (phy_info.tal_state == PHY_TX_AUTO)
-    {
-    SYS_TIME_TimerDestroy(trxEIC_waitTimer);
-    }
 	    trx_irq_handler_cb();
  }
 
@@ -647,39 +638,24 @@ uint32_t tal_convert_us_to_symbols_def(uint32_t time_)
 	return (PHY_CONVERT_US_TO_SYMBOLS(time_));
 }
 
-void trx_delay_loop(void *hw, uint32_t cycles)
-{
-    (void) hw;
-    (void) cycles;
 
-    /* 
-     * SUBS instruction - 1 cycle 
-     * BHI  instruction - 2 cycles if taken; 1 if not taken
-     * 
-     * In most case: 3 cycles is the loop time
-     */
-    
-    __asm__(
-            ".syntax unified\n"
-            "__dly:\n"
-            "subs r1, r1, #1\n"
-            "bhi __dly\n"
-            ".syntax divided"
-            );
-}
 
 void trx_delay_millis(uint32_t ms)
 {
     uint32_t cycles = ((uint32_t)PAL_CPU_CLOCK_FREQUENCY / 1000UL) * ms;
-    cycles /= 3UL;
-    trx_delay_loop(NULL, cycles);
+    for(volatile uint32_t i = 0; i < cycles; i++) {
+        // Empty loop to waste time
+        __asm("NOP"); // Optional: NOP instruction to prevent loop optimization by some compilers
+    }
 }
 
 void trx_delay_micros(uint32_t us)
 {
     uint32_t cycles = ((uint32_t)PAL_CPU_CLOCK_FREQUENCY / 1000000UL) * us;
-    cycles /= 3UL;
-    trx_delay_loop(NULL, cycles); 
+    for(volatile uint32_t i = 0; i < cycles; i++) {
+        // Empty loop to waste time
+        __asm("NOP"); // Optional: NOP instruction to prevent loop optimization by some compilers
+    }
 }
 
 

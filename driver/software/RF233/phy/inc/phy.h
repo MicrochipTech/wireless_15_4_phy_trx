@@ -256,7 +256,11 @@ typedef enum phy_return_value_tag {
 	/* TRX received no ack for the previously sent packet*/	
     PHY_NO_ACK                  = 0x8C, 
 	/* Transmit is failed due to Channel access failure*/
-    PHY_CHANNEL_ACCESS_FAILURE  = 0x8D  
+    PHY_CHANNEL_ACCESS_FAILURE  = 0x8D,
+  /* 15.4 subsytem request is aborted due to BT subsystem High priority request */                                 
+      PHY_RF_REQ_ABORTED          = 0x83,
+  /* RF is not available for 802.15.4 subsytem*/
+      PHY_RF_UNAVAILABLE          = 0x84  
             
 }PHY_Retval_t;
 

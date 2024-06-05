@@ -35,8 +35,8 @@
 #include "../../at86rf/inc/phy_irq_handler.h"
 #include "../../../phy/inc/phy_constants.h"
 #include "../../at86rf/inc/phy_tx.h"
-#include "../../../resources/buffer/inc/bmm.h"
-#include "../../../resources/queue/inc/qmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/queue/inc/qmm.h"
 #include "../../at86rf/inc/phy_rx.h"
 #include "../../../phy/at86rf/inc/phy_internal.h"
 #include "../../at86rf/inc/at86rf.h"
@@ -55,9 +55,6 @@ static uint8_t tal_sw_retry_count;
 static bool tal_sw_retry_no_csma_ca;
 static trx_trac_status_t trx_trac_status;
 
-void trxEIC_waitTimerCb(uintptr_t context);
-SYS_TIME_HANDLE trxEIC_waitTimer;
-bool TxDoneFlag = false;
 
 extern TimerId_t TAL_RETRY_TIMER; 
 
@@ -65,11 +62,6 @@ extern TimerId_t TAL_RETRY_TIMER;
 static void retransmissionTimerCallback(void);
 /* === IMPLEMENTATION ====================================================== */
 
-void trxEIC_waitTimerCb(uintptr_t context) 
-{
-	TxDoneFlag = true;
-	PHY_PostTask(false);
-}
 
 /*
  * \brief Requests to TAL to transmit frame
@@ -159,11 +151,7 @@ void tx_done_handling(void)
 		break;
 	}
 
-    if(TxDoneFlag == true)
-    {
-        TxDoneFlag = false;
-        MiMac_PostTask(false);
-    }
+
 
 	PHY_TxDoneCallback(status, mac_frame_ptr);
     
@@ -243,13 +231,6 @@ void send_frame(PHY_CSMAMode_t csmaMode, bool txRetries)
     TRX_SLP_TR_HIGH();
 	trx_delay_micros(1);
     TRX_SLP_TR_LOW();
-	uint8_t context = 0U;
-    trxEIC_waitTimer = SYS_TIME_CallbackRegisterUS(&trxEIC_waitTimerCb, (uintptr_t)&context, 54000, SYS_TIME_SINGLE);
-    if(trxEIC_waitTimer == SYS_TIME_HANDLE_INVALID)
-    {
-            return;
-    }
-     
     (void)trx_status;
 
 
@@ -293,12 +274,6 @@ void handle_tx_end_irq(bool underrun_occured)
 				TRX_SLP_TR_HIGH();
 				trx_delay_micros(1);
 				TRX_SLP_TR_LOW();
-				uint8_t context = 0U;
-    			trxEIC_waitTimer = SYS_TIME_CallbackRegisterUS(&trxEIC_waitTimerCb, (uintptr_t)&context, 54000, SYS_TIME_SINGLE);
-    			if(trxEIC_waitTimer == SYS_TIME_HANDLE_INVALID)
-    			{
-            		return;
-    			}
 				if (--tal_sw_retry_count == 0U) {
 					tal_sw_retry_no_csma_ca = false;
 				}
