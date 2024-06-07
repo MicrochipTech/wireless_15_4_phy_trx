@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/third_party/rtos/FreeRTOS/Source/FreeRTOS_tasks.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/peripheral/eic/plib_eic.h</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/driver/IEEE_802154_PHY/phy/at86rf/src/phy_init.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/tasks.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/src/star_demo.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/inc/mimac.h</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/inc/miwi_config_p2p.h</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/src/miwi_app.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/driver/IEEE_802154_PHY/phy/src/phy_task.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/driver/IEEE_802154_PHY/phy/at86rf/src/phy.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/src/mimac_task.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/src/miwi_p2p_star.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/main.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/driver/IEEE_802154_PHY/phy/at86rf/src/phy_helper.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/src/mimac.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/driver/IEEE_802154_PHY/phy/at86rf/src/phy_rx_enable.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/src/miwi_init.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/app.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/driver/IEEE_802154_PHY/phy/at86rf/src/phy_tx.c</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/inc/miwi_config.h</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/MiWi/MiWi_Star/inc/miwi_api.h</file>
+            <file>file:/C:/Users/I73764/MPLABXProjects/apps/MiWi_Star_SAMR30/src/config/default/peripheral/tc/plib_tc_common.h</file>
+        </group>
+    </open-files>
+</project-private>

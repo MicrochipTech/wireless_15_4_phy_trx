@@ -474,7 +474,7 @@ def trxMethodUpdate(symbol, event):
     elif Transceiver_type == "RF212B":
         print("transceiver = RF212b")
         print("condTrxTypeRF215",condTrxTypeRF215)
-        # symbol.setEnabled(True) #Neha
+        # symbol.setEnabled(True)
         rfHostlibSelectTRX.setValue("RF212B")
         for file in file_list_RF233:
             file.setEnabled(False)
