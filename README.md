@@ -13,10 +13,7 @@ MPLAB® Harmony 3 is an extension of the MPLAB® ecosystem for creating embedded
 
 This repository contains the MPLAB® Harmony 3 Module for Standalone IEEE 802.15.4 Physical Layer that provide an interface to the microcontrollers (like SAML21, SAMD21) to access the transceiver functionality of radio transceivers like AT86RF233, AT86RF212B & AT86RF215. 
 With the help of PHY layer module user can enable various functionaities of the transceiver.
-reference information.
 
-
-- [MPLAB® Harmony License](mplab_harmony_license.md)
 
 
 # Contents Summary
@@ -27,13 +24,13 @@ reference information.
 | docs|         [User guide](./README.md)
 | drivers    | phy layer files     |
 
-- Clone the [Standalone PHY](https://github.com/MicrochipTech/wireless_15_4_phy_trx) repo to user's local Harmony Repo.
+- Clone the [wireless_15_4_phy_trx](https://github.com/MicrochipTech/wireless_15_4_phy_trx) repo to user's local Harmony Repo.
 - Refer to the section 2.5, Creating a New MCC Harmony Project in the [PIC32CXBZ2 Application Developer's Guide](https://onlinedocs.microchip.com/g/GUID-A5330D3A-9F51-4A26-B71D-8503A493DF9C).
 - Project Graph appears with some predefined component as shown in image below:
 
 ![](docs/img1.jpg)
 
-- The IEEE 802.15.4 PHY component will appear under Wireless->Drivers->IEEE 802.15.4 in the Device Resources tab as shown in image below:
+- The IEEE 802.15.4 PHY TRX component will appear under Wireless->Drivers->IEEE 802.15.4 in the Device Resources tab as shown in image below:
 
 ![](docs/img2.png)
 

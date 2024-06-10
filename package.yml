@@ -1,18 +1,18 @@
 package:
-  format-version: "1.0.0"
-  name: "standalone_PHY"
+  format-version: "1.1.0"
+  name: "wireless_15_4_phy_trx"
   type: "api"
   status: "beta"
   required: false
-  version: "1.0.0"
+  version: "1.1.0"
 
   dependencies:
     - name: "core"
       type: "package"
-      version: "3.13.0"
+      version: "3.13.1"
     - name: "csp"
       type: "package"
-      version: "3.18.0"
+      version: "3.18.4"
     - name: "bsp"
       type: "package"
       version: "3.17.0"
@@ -22,6 +22,3 @@ package:
     - name: "dev_packs"
       type: "package"
       version: "3.17.0"
-    - name: "wireless_system_pic32cxbz_wbz"
-      type: "package"
-      version: "1.3.0"
