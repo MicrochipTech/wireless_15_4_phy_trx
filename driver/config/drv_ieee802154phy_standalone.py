@@ -453,25 +453,71 @@ def trxMethodUpdate(symbol, event):
     file_list_RF212b = [RF212b_phy_tx_frame_done_cbC, RF212b_phy_taskC, RF212b_phy_rx_frame_cbC, RF212b_phy_ed_end_cbC, RF212b_tfaC, RF212b_phy_txC, RF212b_phy_rx_enableC, RF212b_phy_rxC, RF212b_phy_pwr_mgmtC, RF212b_phy_pibC, RF212b_phy_irq_handlerC, RF212b_phy_initC, RF212b_phy_helperC, RF212b_phy_edC, RF212b_phyC, at86rf212bH, RF212b_phy_txH, RF212b_phy_trx_reg_accessC, RF212b_phy_trx_reg_accessH, RF212b_phy_rxH, RF212b_phy_pibH, RF212b_phy_irq_handlerH, RF212b_phy_internalH, RF212b_phy_tasksH, RF212b_phy_constantsH, RF212b_phy_configH, RF212b_ieee_phy_constH, RF212b_phyH]
     if Transceiver_type == "RF233":
         print("transceiver = RF233")
-        for file in range(len(file_list_RF233)):
-            file_list_RF212b[file].setEnabled(False)
-            file_list_RF233[file].setEnabled(True)
+        print("condTrxTypeRF215",condTrxTypeRF215)
+        # symbol.setEnabled(True)
+        rfHostlibSelectTRX.setValue("RF233")
+        for file in file_list_RF212b:
+            file.setEnabled(False)
+        for file in file_list_RF215:
+            file.setEnabled(False)
+        for file in file_list_RF233:
+            file.setEnabled(True)
+        # for file in range(len(file_list_RF233)):
+        #     file_list_RF212b[file].setEnabled(False)
+        #     file_list_RF215[file].setEnabled(False)
+        #     file_list_RF233[file].setEnabled(True)
+        preprocessorMacro = preprocessorCompiler.getValue()
+        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF212B", ";PHY_AT86RF233")
+        preprocessorMacro = preprocessorMacro.replace(";RF215V3", ";PHY_AT86RF233")
+        preprocessorCompiler.setValue(preprocessorMacro)
+        preprocessorCompiler.setEnabled(True)
     elif Transceiver_type == "RF212B":
         print("transceiver = RF212b")
-        for file in range(len(file_list_RF212b)):
-            file_list_RF233[file].setEnabled(False)
-            file_list_RF212b[file].setEnabled(True)
+        print("condTrxTypeRF215",condTrxTypeRF215)
+        # symbol.setEnabled(True)
+        rfHostlibSelectTRX.setValue("RF212B")
+        for file in file_list_RF233:
+            file.setEnabled(False)
+        for file in file_list_RF215:
+            file.setEnabled(False)
+        for file in file_list_RF212b:
+            file.setEnabled(True)
+        # for file in range(len(file_list_RF212b)):
+        #     file_list_RF233[file].setEnabled(False)
+        #     file_list_RF215[file].setEnabled(False)
+        #     file_list_RF212b[file].setEnabled(True)
+        preprocessorMacro = preprocessorCompiler.getValue()
+        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF233", ";PHY_AT86RF212B")
+        preprocessorMacro = preprocessorMacro.replace(";RF215V3", ";PHY_AT86RF212B")
+        preprocessorCompiler.setValue(preprocessorMacro)
+        preprocessorCompiler.setEnabled(True)
     elif Transceiver_type == "RF215":
-        # To be implemented
         print("transceiver = RF215")
-        Log.writeErrorMessage("RF215 is currently not supported. To be implemented in the future")
-        for file in range(len(file_list_RF212b)):
-            file_list_RF233[file].setEnabled(False)
-            file_list_RF212b[file].setEnabled(False)
-
-
-    
-
+        for file in file_list_RF233:
+            file.setEnabled(False)
+        for file in file_list_RF212b:
+            file.setEnabled(False)
+        for file in file_list_RF215:
+            file.setEnabled(True)
+        # symbol.setEnabled(True)
+        rfHostlibSelectTRX.setValue("RF215")
+        condTrxRF215 = True
+        print("condTrxTypeRF215",condTrxTypeRF215)
+        
+        print("rfHostlibSelectTRX.getValue()",rfHostlibSelectTRX.getValue())
+        print("len of file_list_RF215[file]",len(file_list_RF215))
+        # condTrxRF215 = (rfHostlibSelectTRX.getValue() == "RF215")
+        # print("condTrxRF215",condTrxRF215)
+        # condTrxTypeRF215 = [condTrxRF215, trxMethodUpdate, ['RF_HOST_SELECT_TRANSEIVER']]
+        # print("condTrxTypeRF215",condTrxTypeRF215)
+        preprocessorMacro = preprocessorCompiler.getValue()
+        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF233", ";RF215V3;SUPPORT_LEGACY_OQPSK;SUPPORT_OQPSK;SUPPORT_OFDM;SUPPORT_FSK;MULTI_TRX_SUPPORT;ENABLE_TFA;SUPPORT_MODE_SWITCH;TFA_CW;PROMISCUOUS_MODE;ENABLE_TFA; TFA_CW;")
+        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF212B", ";RF215V3;SUPPORT_LEGACY_OQPSK;SUPPORT_OQPSK;SUPPORT_OFDM;SUPPORT_FSK;MULTI_TRX_SUPPORT;ENABLE_TFA;SUPPORT_MODE_SWITCH;TFA_CW;PROMISCUOUS_MODE;ENABLE_TFA;TFA_CW;")
+        preprocessorCompiler.setValue(preprocessorMacro)
+        preprocessorCompiler.setEnabled(True)
+    else:
+        #to be implemented
+        pass
 
 def onAttachmentConnected(source, target):
     localComponent = source["component"]
@@ -505,7 +551,8 @@ def instantiateComponent(rfHostLib):
     configName = Variables.get("__CONFIGURATION_NAME")
     processor = Variables.get("__PROCESSOR")
     print("processor", processor)
-
+    global file_list_RF215 
+    file_list_RF215 = []
     requiredComponents = [
     "HarmonyCore",
     "sys_time",
@@ -513,7 +560,8 @@ def instantiateComponent(rfHostLib):
     "eic",
     "trng",
     ]
-
+    global srcFileSym
+    global incFileSym
     res = Database.activateComponents(requiredComponents)
 
     global rfHostlibSpiSercomType
@@ -541,13 +589,20 @@ def instantiateComponent(rfHostLib):
     rfHostlibEicChannelSelected.setDependencies(eic_used_callback, list_of_EicChannel_ID)
 
     #rfHostlibSelectTransceiverType
+    global rfHostlibSelectTRX
     rfHostlibSelectTRX = rfHostLib.createComboSymbol("RF_HOST_SELECT_TRANSEIVER", None, Transceiver_Type_options)
     rfHostlibSelectTRX.setLabel("Select Transceiver Type")
     rfHostlibSelectTRX.setDescription("Select the TRANSEIVER type")
     rfHostlibSelectTRX.setDefaultValue("RF233")
     rfHostlibSelectTRX.setDependencies(trxMethodUpdate, ["RF_HOST_SELECT_TRANSEIVER"])
         
-
+    global condTrxRF215
+    global condTrxTypeRF215
+    condTrxRF215 = (rfHostlibSelectTRX.getValue()=="RF215")
+    print("rfHostlibSelectTRX.getValue()",rfHostlibSelectTRX.getValue())
+    #condTrxTypeRF215 = [condTrxRF215, trxMethodUpdate, ['RF_HOST_SELECT_TRANSEIVER']]
+    condTrxTypeRF215 = [False, None, []]
+    print("condTrxTypeRF215",condTrxTypeRF215)
     ## GPIO PORT DEPENDENCIES 
     get_port_pin_dependencies()
 
@@ -647,7 +702,6 @@ def instantiateComponent(rfHostLib):
     rfHostRstPinMsg.setLabel(rst_pin_config_msg)
 
 
-
     global rfHostBufferConfigmenu
     rfHostBufferConfigmenu  = rfHostLib.createMenuSymbol("BMM_BUFFER", None)
     rfHostBufferConfigmenu.setLabel("Buffer Configuration")
@@ -667,6 +721,15 @@ def instantiateComponent(rfHostLib):
     phyIntegerBmmSmallBuffers.setMax(50)
     phyIntegerBmmSmallBuffers.setDefaultValue(3)
     
+    # === Compiler macros
+    global preprocessorCompiler
+    preprocessorCompiler = rfHostLib.createSettingSymbol("IEEE802154PHY_XC32_PREPRECESSOR", None)
+    preprocessorCompiler.setValue("ENABLE_LARGE_BUFFER;ENABLE_QUEUE_CAPACITY;PHY_AT86RF233") #
+    preprocessorCompiler.setCategory("C32")
+    preprocessorCompiler.setKey("preprocessor-macros")
+    preprocessorCompiler.setAppend(True, ";")
+    preprocessorCompiler.setEnabled(True)
+
     #definitions 
     global rfSystemDefFile
     rfSystemDefFile = rfHostLib.createFileSymbol("RFPHY_DEFINITIONS", None)
@@ -676,6 +739,25 @@ def instantiateComponent(rfHostLib):
     rfSystemDefFile.setOverwrite(True)
     rfSystemDefFile.setMarkup(True)
 
+    global idletaskh
+    idletaskh = rfHostLib.createFileSymbol("APP_IDLE_TASK_HEADER", None)
+    idletaskh.setSourcePath("/driver/templates/common/app_idle_task.h.ftl")
+    idletaskh.setOutputName("app_idle_task.h")
+    idletaskh.setDestPath('../../')
+    idletaskh.setProjectPath('')
+    idletaskh.setType("HEADER")
+    idletaskh.setOverwrite(True)
+    idletaskh.setMarkup(True)
+
+    global idletaskc
+    idletaskc = rfHostLib.createFileSymbol("APP_IDLE_TASK_SOURCE", None)
+    idletaskc.setSourcePath("/driver/templates/common/app_idle_task.c.ftl")
+    idletaskc.setOutputName("app_idle_task.c")
+    idletaskc.setDestPath('../../')
+    idletaskc.setProjectPath('')
+    idletaskc.setType("SOURCE")
+    idletaskc.setOverwrite(True)
+    idletaskc.setMarkup(True)
 
     #initialization
     global phyInitFile
@@ -713,8 +795,6 @@ def instantiateComponent(rfHostLib):
     phyTasksC.setSourcePath('driver/templates/common/phy_task.c.ftl')
     phyTasksC.setMarkup(True)
 
-
-
     #app.h
     global rfAppH
     rfAppH = rfHostLib.createFileSymbol(None, None)
@@ -726,6 +806,18 @@ def instantiateComponent(rfHostLib):
     rfAppH.setType('HEADER')
     rfAppH.setMarkup(True)
     rfAppH.setEnabled(True)
+
+    # #app.c
+    # global rfAppC
+    # rfAppC = rfHostLib.createFileSymbol(None, None)
+    # rfAppC.setSourcePath('driver/templates/common/app.c.ftl')
+    # rfAppC.setOutputName('app.c')
+    # rfAppC.setOverwrite(True)
+    # rfAppC.setDestPath('../../')
+    # rfAppC.setProjectPath('')
+    # rfAppC.setType('SOURCE')
+    # rfAppC.setMarkup(True)
+    # rfAppC.setEnabled(True)
 
     phyConfHeader = rfHostLib.createFileSymbol("PHY_CONF_HEADER", None)
     phyConfHeader.setSourcePath("/driver/templates/common/stack_config.h.ftl")
@@ -800,6 +892,23 @@ def instantiateComponent(rfHostLib):
     palC.setType("SOURCE")
     palC.setOverwrite(True)
 
+    global pal_inc
+    pal_inc = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_PAL", None)
+    pal_inc.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/pal/inc/;")
+    pal_inc.setCategory("C32")
+    pal_inc.setKey("extra-include-directories")
+    pal_inc.setAppend(True, ";")
+    pal_inc.setEnabled(True)
+
+    global pal_inc_cpp
+    pal_inc_cpp = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_PAL_CPP", None)
+    pal_inc_cpp.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/pal/inc/;")
+    pal_inc_cpp.setCategory("C32CPP")
+    pal_inc_cpp.setKey("extra-include-directories")
+    pal_inc_cpp.setAppend(True, ";")
+    pal_inc_cpp.setEnabled(True)
+
+
     #Add resource related files
     global bmmH
     bmmH = rfHostLib.createFileSymbol("bmm_H", None) 
@@ -818,6 +927,22 @@ def instantiateComponent(rfHostLib):
     bmmC.setProjectPath('config/' + configName + "/driver/IEEE_802154_PHY/resources/buffer/src/")
     bmmC.setType("SOURCE")
     bmmC.setOverwrite(True)
+
+    global bmm_inc
+    bmm_inc = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_BMM", None)
+    bmm_inc.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/resources/buffer/inc/;")
+    bmm_inc.setCategory("C32")
+    bmm_inc.setKey("extra-include-directories")
+    bmm_inc.setAppend(True, ";")
+    bmm_inc.setEnabled(True)
+
+    global bmm_inc_cpp
+    bmm_inc_cpp = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_BMM_CPP", None)
+    bmm_inc_cpp.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/resources/buffer/inc/;")
+    bmm_inc_cpp.setCategory("C32CPP")
+    bmm_inc_cpp.setKey("extra-include-directories")
+    bmm_inc_cpp.setAppend(True, ";")
+    bmm_inc_cpp.setEnabled(True)
 
 
     global qmmH
@@ -838,8 +963,40 @@ def instantiateComponent(rfHostLib):
     qmmC.setType("SOURCE")
     qmmC.setOverwrite(True)
 
-    
+    global qmm_inc
+    qmm_inc = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_QMM", None)
+    qmm_inc.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/resources/queue/inc/;")
+    qmm_inc.setCategory("C32")
+    qmm_inc.setKey("extra-include-directories")
+    qmm_inc.setAppend(True, ";")
+    qmm_inc.setEnabled(True)
+
+    global qmm_inc_cpp
+    qmm_inc_cpp = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_QMM_CPP", None)
+    qmm_inc_cpp.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/resources/queue/inc/;")
+    qmm_inc_cpp.setCategory("C32CPP")
+    qmm_inc_cpp.setKey("extra-include-directories")
+    qmm_inc_cpp.setAppend(True, ";")
+    qmm_inc_cpp.setEnabled(True)
+
     #Add RF233 phy related files
+
+    global phy_inc
+    phy_inc = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_PHY", None)
+    phy_inc.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/phy/inc/;")
+    phy_inc.setCategory("C32")
+    phy_inc.setKey("extra-include-directories")
+    phy_inc.setAppend(True, ";")
+    phy_inc.setEnabled(True)
+
+    global phy_inc_cpp
+    phy_inc_cpp = rfHostLib.createSettingSymbol("IEEE802154PHY_INC_PATH_PHY_CPP", None)
+    phy_inc_cpp.setValue("../src/config/" + configName + "/driver/IEEE_802154_PHY/phy/inc/;")
+    phy_inc_cpp.setCategory("C32CPP")
+    phy_inc_cpp.setKey("extra-include-directories")
+    phy_inc_cpp.setAppend(True, ";")
+    phy_inc_cpp.setEnabled(True)
+
     global RF233_phyH
     RF233_phyH = rfHostLib.createFileSymbol("RF233_phy_H", None) 
     RF233_phyH.setSourcePath("driver/software/RF233/phy/inc/phy.h")
@@ -907,8 +1064,8 @@ def instantiateComponent(rfHostLib):
     RF233_phy_pibH = rfHostLib.createFileSymbol("RF233_phy_pib_H", None) 
     RF233_phy_pibH.setSourcePath("driver/software/RF233/phy/at86rf233/inc/phy_pib.h")
     RF233_phy_pibH.setOutputName("phy_pib.h")
-    RF233_phy_pibH.setDestPath("driver/IEEE_802154_PHY\phy/at86rf/inc/")
-    RF233_phy_pibH.setProjectPath('config/' + configName + "/driver/IEEE_802154_PHY\phy/at86rf/inc/")
+    RF233_phy_pibH.setDestPath("driver/IEEE_802154_PHY/phy/at86rf/inc/")
+    RF233_phy_pibH.setProjectPath('config/' + configName + "/driver/IEEE_802154_PHY/phy/at86rf/inc/")
     RF233_phy_pibH.setType("HEADER")
     RF233_phy_pibH.setOverwrite(True)  
 
@@ -1009,6 +1166,18 @@ def instantiateComponent(rfHostLib):
     RF233_phy_trx_reg_accessC.setOverwrite(True)  
     RF233_phy_trx_reg_accessC.setMarkup(True)
 
+    global RF215_phy_trx_reg_accessC
+    RF215_phy_trx_reg_accessC = rfHostLib.createFileSymbol("RF215_phy_trx_reg_accessC", None) 
+    RF215_phy_trx_reg_accessC.setSourcePath("driver/templates/RF215/phy_trx_reg_access.c.ftl")
+    RF215_phy_trx_reg_accessC.setOutputName("trx_access_2.c")
+    RF215_phy_trx_reg_accessC.setDestPath("driver/IEEE_802154_PHY/phy/at86rf215/src/")
+    RF215_phy_trx_reg_accessC.setProjectPath('config/' + configName + "/driver/IEEE_802154_PHY/phy/at86rf215/src/")
+    RF215_phy_trx_reg_accessC.setType("SOURCE")
+    RF215_phy_trx_reg_accessC.setOverwrite(True)  
+    RF215_phy_trx_reg_accessC.setMarkup(True)
+    RF215_phy_trx_reg_accessC.setEnabled(False)
+    file_list_RF215.append(RF215_phy_trx_reg_accessC)
+
     global RF233_phy_pibC
     RF233_phy_pibC = rfHostLib.createFileSymbol("RF233_phy_pib_C", None)
     RF233_phy_pibC.setSourcePath("driver/software/RF233/phy/at86rf233/src/phy_pib.c")
@@ -1099,10 +1268,8 @@ def instantiateComponent(rfHostLib):
     RF233_phy_tx_frame_done_cbC.setProjectPath('config/' + configName + "/driver/IEEE_802154_PHY/phy/src/")
     RF233_phy_tx_frame_done_cbC.setType("SOURCE")
     RF233_phy_tx_frame_done_cbC.setOverwrite(True)
-
-
-
-    
+    print("RF233_phy_tx_frame_done_cbC",RF233_phy_tx_frame_done_cbC)
+ 
 
     #Add RF212b phy related files
     global RF212b_phyH
@@ -1179,7 +1346,7 @@ def instantiateComponent(rfHostLib):
     RF212b_phy_pibH = rfHostLib.createFileSymbol("RF212b_phy_pib_H", None) 
     RF212b_phy_pibH.setSourcePath("driver/software/RF212b/phy/at86rf212b/inc/phy_pib.h")
     RF212b_phy_pibH.setOutputName("phy_pib.h")
-    RF212b_phy_pibH.setDestPath("driver/IEEE_802154_PHY\phy/at86rf/inc/")
+    RF212b_phy_pibH.setDestPath("driver/IEEE_802154_PHY/phy/at86rf/inc/")
     RF212b_phy_pibH.setProjectPath('config/' + configName + "/driver/IEEE_802154_PHY/phy/at86rf/inc/")
     RF212b_phy_pibH.setType("HEADER")
     RF212b_phy_pibH.setOverwrite(True)  
@@ -1396,8 +1563,224 @@ def instantiateComponent(rfHostLib):
     RF212b_phy_tx_frame_done_cbC.setOverwrite(True)
     RF212b_phy_tx_frame_done_cbC.setEnabled(False)
 
+
+
+    # === Treat warnings as errors
+    mimacWarnAsErr = rfHostLib.createSettingSymbol("MIWI_GCC_WARN_ERROR", None)
+    mimacWarnAsErr.setValue("false")
+    mimacWarnAsErr.setCategory("C32")
+    mimacWarnAsErr.setKey("make-warnings-into-errors")
+
+    # === Set optimization level
+    mimacOptLevel = rfHostLib.createSettingSymbol("PET_LEVEL", None)
+    mimacOptLevel.setValue("-O1")
+    mimacOptLevel.setCategory("C32")
+    mimacOptLevel.setKey("optimization-level")
+
+  
+    conditionAlwaysInclude = [True, None, []]
+##RF215 file addition
+    rf215_phy_src_files = [
+    ["phy/src/phy_ed_end_cb.c", condTrxTypeRF215],
+    ["phy/src/phy_rx_frame_cb.c", condTrxTypeRF215],
+    ["phy/src/phy_task.c", condTrxTypeRF215],
+    ["phy/src/phy_tx_frame_done_cb.c", condTrxTypeRF215],    
+    ]
+
+    rf215_phy_inc_files = [
+    ["phy/inc/ieee_phy_const.h", condTrxTypeRF215],
+    ["phy/inc/phy.h", condTrxTypeRF215],
+    ["phy/inc/phy_constants.h", condTrxTypeRF215],
+    ["phy/inc/phy_tasks.h", condTrxTypeRF215],    
+    ]
+
+    rf215_phy_at86rf_src_files = [
+    ["phy/at86rf215/src/tal_4g_utils.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_auto_ack.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_auto_csma.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_auto_rx.c", condTrxTypeRF215],    
+    ["phy/at86rf215/src/tal.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_auto_tx.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_ed.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_fe.c", condTrxTypeRF215],  
+    ["phy/at86rf215/src/tal_ftn.c", condTrxTypeRF215],  
+    ["phy/at86rf215/src/tal_helper_2.c", condTrxTypeRF215],  
+    ["phy/at86rf215/src/tal_init.c", condTrxTypeRF215],  
+    ["phy/at86rf215/src/tal_irq_handler.c", condTrxTypeRF215],  
+    ["phy/at86rf215/src/tal_mode_switch.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_multitrx_interface.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_phy_cfg.c", condTrxTypeRF215], 
+    ["phy/at86rf215/src/tal_pib.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tal_pwr_mgmt.c", condTrxTypeRF215], 
+    ["phy/at86rf215/src/tal_rand.c", condTrxTypeRF215],  
+    ["phy/at86rf215/src/tal_rx_enable.c", condTrxTypeRF215],
+    ["phy/at86rf215/src/tfa.c", condTrxTypeRF215], 
+    ["phy/at86rf215/src/tfa_batmon.c", condTrxTypeRF215], 
+    # ["phy/at86rf215/src/trx_access_2.c", condTrxTypeRF215],         
+    ]
+
+    rf215_phy_at86rf_inc_files = [
+    ["phy/at86rf215/inc/at86rf215.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/ieee_154g.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/ieee_const.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/stack_config.h", condTrxTypeRF215],    
+    ["phy/at86rf215/inc/tal.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/tal_config.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/tal_fe_fsk_params.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/tal_generic.h", condTrxTypeRF215],  
+    ["phy/at86rf215/inc/tal_helper_2.h", condTrxTypeRF215],  
+    ["phy/at86rf215/inc/tal_internal.h", condTrxTypeRF215],  
+    ["phy/at86rf215/inc/tal_multi_trx.h", condTrxTypeRF215],  
+    ["phy/at86rf215/inc/tal_pib.h", condTrxTypeRF215],  
+    ["phy/at86rf215/inc/tal_rf215.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/tal_timer_config.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/tal_types.h", condTrxTypeRF215], 
+    ["phy/at86rf215/inc/tfa.h", condTrxTypeRF215],
+    ["phy/at86rf215/inc/trx_access_2.h", condTrxTypeRF215],         
+    ]
+
+# #PAL layer files
+#     rf215_pal_src_files = [
+#     ["pal/src/pal.c"],   
+#     ]
+
+#     rf215_pal_inc_files = [
+#     ["phy/inc/pal.h"],   
+#     ]
+
+# #resources files
+#     rf215_bmm_src_files = [
+#     ["resources/buffer/src/bmm.c"],   
+#     ]
+
+#     rf215_bmm_inc_files = [
+#     ["resources/buffer/inc/bmm.h"],   
+#     ]
+
+#     rf215_qmm_src_files = [
+#     ["resources/queue/src/qmm.c"],   
+#     ]
+
+#     rf215_qmm_inc_files = [
+#     ["resources/queue/inc/qmm.h"],   
+#     ]
+
+# === Import the source files
+    # for srcFileEntry in rf215_pal_src_files:
+    #     importSrcFile(rfHostLib, configName, srcFileEntry)
+    # for incFileEntry in rf215_pal_inc_files:
+    #     importIncFile(rfHostLib, configName, incFileEntry)
+    # for srcFileEntry in rf215_bmm_src_files:
+    #     importSrcFile(rfHostLib, configName, srcFileEntry)
+    # for incFileEntry in rf215_bmm_inc_files:
+    #     importIncFile(rfHostLib, configName, incFileEntry)
+    # for srcFileEntry in rf215_qmm_src_files:
+    #     importSrcFile(rfHostLib, configName, srcFileEntry)
+    # for incFileEntry in rf215_qmm_inc_files:
+    #     importIncFile(rfHostLib, configName, incFileEntry)
+    for srcFileEntry in rf215_phy_src_files:
+        importSrcFile(rfHostLib, configName, srcFileEntry)
+    print("file_list_RF215/Deepthi1",len(file_list_RF215))
+    for incFileEntry in rf215_phy_inc_files:
+        importIncFile(rfHostLib, configName, incFileEntry)
+    print("file_list_RF215/Deepthi2",len(file_list_RF215))
+    for srcFileEntry in rf215_phy_at86rf_src_files:
+        importSrcFile(rfHostLib, configName, srcFileEntry)
+    print("file_list_RF215/Deepthi3",len(file_list_RF215))
+    for incFileEntry in rf215_phy_at86rf_inc_files:
+        importIncFile(rfHostLib, configName, incFileEntry)
+    print("file_list_RF215/Deepthi4",len(file_list_RF215))
+    for i in range(len(file_list_RF215)):
+        print(file_list_RF215[i])
+
+def importSrcFile(component, configName, srcFileEntry, firmwarePath = None):
+    srcFilePath  = srcFileEntry[0]
+    isEnabled    = srcFileEntry[1][0]
+    callback     = srcFileEntry[1][1]
+    dependencies = srcFileEntry[1][2]
+
+    srcFilePathTup = srcFilePath.rsplit("/", 1)
+
+    if len(srcFilePathTup) == 1:
+        secName = ""
+        srcFile = srcFilePathTup[0]
+    else:
+        secName = srcFilePathTup[0]
+        srcFile = srcFilePathTup[1]
+
+    srcFilePrefix   = ""
+    # symName = srcFile.replace(".", "_").upper()
+    symName = srcFile.replace(".", "_").upper()
+    secSName = secName + "/"
+    secDName = secSName
     
-    check_update_pins()
+    srcFileSym = component.createFileSymbol(symName, None)
+    print("secSName",secSName)
+    print("secDName",secDName)
+    print("srcFile",srcFile)
+    print("srcpath","driver/software/RF215/" + secSName + srcFile)
+    print("destpath","driver/IEEE_802154_PHY/"+ secDName + "")
+    print("project path","config/" + configName + "/"+ "driver/IEEE_802154_PHY/" + secDName + "")
+    file_list_RF215.append(srcFileSym)
+    srcFileSym.setSourcePath("driver/software/RF215/" + secSName + srcFile)
+    srcFileSym.setOutputName(srcFile.rsplit("/", 1)[-1])
+    srcFileSym.setDestPath("driver/IEEE_802154_PHY/"+ secDName + "")
+    srcFileSym.setProjectPath("config/" + configName + "/"+ "driver/IEEE_802154_PHY/" + secDName + "")
+    srcFileSym.setType("SOURCE")
+    srcFileSym.setEnabled(isEnabled)
+    srcFileSym.setOverwrite(isEnabled)
+
+    if callback and dependencies:
+        srcFileSym.setDependencies(callback, dependencies)
+#end importSrcFile
+
+def importIncFile(component, configName, incFileEntry, firmwarePath = None):
+    incFilePath  = incFileEntry[0]
+    isEnabled    = incFileEntry[1][0]
+    callback     = incFileEntry[1][1]
+    dependencies = incFileEntry[1][2]
+
+    incFilePathTup = incFilePath.rsplit("/", 1)
+
+    if len(incFilePathTup) == 1:
+        secName = ""
+        incFile = incFilePathTup[0]
+        print("incFilePathTup[0]",incFilePathTup[0])
+    else :
+        secName = incFilePathTup[0]
+        incFile = incFilePathTup[1]        
+
+    # symName = incFile.replace(".", "_").upper()
+    symName = incFile.replace(".", "_").upper()
+    secSName = secName + "/"
+    secDName = secSName
+    print("importIncFile: ", secDName)
+    print("src path")
+    print("driver/software/RF215/" + secSName + incFile)
+    print("dest path")
+    print("driver/IEEE_802154_PHY/"+ secDName + "")
+    print("proj path")
+    print("config/" + configName + "/"+ "driver/IEEE_802154_PHY/" + secDName + "")
+    incFileSym = component.createFileSymbol(symName, None)
+    print("symName",symName)
+    print("incFileSym",incFileSym)
+    print("isEnabled",isEnabled)
+    print("secSName",secSName.rsplit("/",2))
+    file_list_RF215.append(incFileSym)
+    incFileSym.setSourcePath("driver/software/RF215/" + secSName + incFile)
+    incFileSym.setOutputName(incFile)
+    incFileSym.setDestPath("driver/IEEE_802154_PHY/"+ secDName + "")
+    incFileSym.setProjectPath("config/" + configName + "/"+ "driver/IEEE_802154_PHY/" + secDName + "")
+    incFileSym.setType("HEADER")
+    incFileSym.setOverwrite(True)
+    incFileSym.setEnabled(isEnabled)
+    incFileSym.setOverwrite(isEnabled)
+
+    if callback and dependencies:
+        incFileSym.setDependencies(callback, dependencies)
+#end importIncFile
+
+check_update_pins()
     
 def finalizeComponent(rfHostLib):
     #print("finalizeComponent")

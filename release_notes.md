@@ -4,9 +4,9 @@
 # Microchip Standalone IEEE 802.15.4 Physical Layer Release Notes
 
 
-## Release v1.0.0
+## Release v1.1.0
 
-The physical layer contains the transceiver specific functionalities as mentioned as the requirements of IEEE 802.15.4 specification. It gives the interface to the MAC core layer which is independent of the underlying transceiver.
+The physical layer contains the transceiver specific functionalities as the requirements of IEEE 802.15.4 specification. It gives the interface to the MAC core layer which is independent of the underlying transceiver.
 Besides that, the PHY layer provides the set of APIs which can be used to interface a basic application.
 The following are the funcionalities of PHY layer
 
@@ -29,10 +29,10 @@ The following are the funcionalities of PHY layer
 -	Deep Sleep feature is not implemented.
 
 ## Development Tools
--	MPLAB X v6.15
--	MPLAB® XC32 C/C++ Compiler v4.35
--	MPLAB® X IDE plug-ins: MPLAB® Code Configurator (MCC) v5.3.7 and above
--	Device Pack: SAML21_DFP (3.7.217)
+-	MPLAB X v6.20
+-	MPLAB® XC32 C/C++ Compiler v4.40
+-	MPLAB® X IDE plug-ins: MPLAB® Code Configurator (MCC) v5.5.0 and above
+-	Device Pack: SAML21_DFP (3.7.217), SAMR30_DFP (2.0.47), SAMR21_DFP (2.0.52)
 
 ## Notes
 -	None

@@ -34,8 +34,8 @@
 #include <stdio.h>
 
 #include "../../../phy/inc/phy.h"
-#include "../../../resources/buffer/inc/bmm.h"
-#include "../../../resources/queue/inc/qmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/buffer/inc/bmm.h"
+#include "config/default/driver/IEEE_802154_PHY/resources/queue/inc/qmm.h"
 
 #include "../../../phy/inc/ieee_phy_const.h"
 #include "../../at86rf/inc/phy_pib.h"

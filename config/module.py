@@ -26,7 +26,7 @@ def loadModule():
     print('Load Module: Harmony IEEE 802.15.4 PHY Standalone Library')
 
 
-    rfHostComponent  = Module.CreateComponent('IEEE_802154_PHY', 'IEEE 802.15.4 PHY', 'Wireless/Drivers/IEEE 802.15.4','driver/config/drv_ieee802154phy_standalone.py')
+    rfHostComponent  = Module.CreateComponent('IEEE_802154_PHY', 'IEEE 802.15.4 PHY TRX', 'Wireless/Drivers/IEEE 802.15.4','driver/config/drv_ieee802154phy_standalone.py')
     rfHostComponent.setDisplayType('HOST<->TRANSCEIVER INTERFACE\n\n\n')
     rfHostComponent.addDependency('TRANSCEIVER_SPI_Dependency', 'SPI','SERCOM',False, True)
     rfHostComponent.addDependency('HarmonyCoreDependency', 'Core Service', 'Core', True, True)

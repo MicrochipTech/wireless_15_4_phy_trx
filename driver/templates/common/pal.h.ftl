@@ -749,7 +749,8 @@ PAL_Status_t PAL_GetRandomNumber(uint8_t *rnOutput, uint16_t rnLength);
     Transmit Power Max value as per Regulatory region
 */
 //int8_t PAL_GetTrxTransmitPowerMax(void);
-
+void delayms(uint32_t milliseconds);
+void delayus(uint32_t microsecs);
 /* ! @} */
 #ifdef __cplusplus
 } /* extern "C" */

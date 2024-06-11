@@ -603,10 +603,6 @@ typedef enum ch_pg_tag {
  */
 #define macBeaconTxTime                 (0x48U)
 
-/**
- * Default value for PIB macBeaconTxTime
- */
-#define macBeaconTxTime_def             (0x000000U)
 
 /**
  * The sequence number added to the transmitted beacon frame.

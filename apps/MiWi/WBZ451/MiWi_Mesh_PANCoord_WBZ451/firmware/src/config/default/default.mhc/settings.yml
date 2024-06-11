@@ -1,0 +1,13 @@
+configName: default
+folderName: MiWiMeshPanCoordchim
+format_version: v1.0
+frameworkPath: D:\v2_1_0_case
+processor: WBZ451
+projectName: MiWiMeshPanCoordchim
+settings:
+  PackageFilter: ''
+  FORCE_OPTIMIZATION: 'false'
+  GENERATE_BACKUP: 'true'
+  TRUSTZONE: 'false'
+  MERGE_STRATEGY: USER_ALL
+  DFPPath: PIC32CX-BZ_DFP\1.2.230
