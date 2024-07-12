@@ -719,7 +719,7 @@ PHY_Retval_t PHY_ConvertTxPwrRegValToDbm(uint8_t regValue, int8_t *dbmValue)
 PHY_Retval_t PHY_ReadGrpOfReg(uint16_t start_addr,uint16_t end_addr)
 {
 //    SYS_CONSOLE_PRINT("\r\n PHY_ReadGrpOfReg");
-   uint8_t reg_val[256] = {NULL};
+   uint8_t reg_val[256] = {0};
    int16_t num_of_reg_to_read = 0;
    num_of_reg_to_read = ((end_addr - start_addr));
    if(tal_dump_registers(trx_id, start_addr, end_addr, (reg_val + 1)) == PHY_SUCCESS)
@@ -738,6 +738,7 @@ PHY_Retval_t PHY_ReadGrpOfReg(uint16_t start_addr,uint16_t end_addr)
 //        SYS_CONSOLE_PRINT("\r\n irq status registers cleared\r\n");
 //       }
        PAL_TimerDelay(100000);
+       return PHY_SUCCESS;
 }
 
 uint32_t PHY_GetSWVersion(void)
@@ -745,17 +746,17 @@ uint32_t PHY_GetSWVersion(void)
     return PHY_VERSION_VALUE;
 }
 
-void PHY_SetMod(trx_id_t trxid)
+void PHY_SetMod(trx_id_t trxid,modulation_t mod)
 {
 #ifdef MULTI_TRX_SUPPORT
     /* Configure PHY for sub-1GHz and 2.4GHz */
     if(trxid == RF09)
     {
-        set_mod(RF09, MOD_SUB1);
+        set_mod(RF09, mod);
     }
     else
     {
-//        set_mod(RF24, MOD_2_4G);   
+       set_mod(RF24, mod);   
     }
 #endif
 }

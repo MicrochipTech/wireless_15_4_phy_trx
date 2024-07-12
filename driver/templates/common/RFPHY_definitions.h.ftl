@@ -26,5 +26,7 @@
 #include "driver/IEEE_802154_PHY/pal/inc/pal.h"
 #include "driver/IEEE_802154_PHY/phy/inc/phy.h"
 #include "driver/IEEE_802154_PHY/phy/inc/phy_tasks.h"
+#if !defined(RF215V3)
 #include "driver/IEEE_802154_PHY/phy/at86rf/inc/phy_internal.h"
+#endif
 #include "framework_defs.h"

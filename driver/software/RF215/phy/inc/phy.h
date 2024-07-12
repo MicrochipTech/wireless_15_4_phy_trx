@@ -2145,7 +2145,7 @@ uint32_t tal_convert_us_to_symbols_def(uint32_t time_);
 */
 
 bool PHY_IsFramePendingFromNextLayer(PHY_Addr_t *addr, uint8_t *addrMode);
-void PHY_SetMod(trx_id_t trxid);
+void PHY_SetMod(trx_id_t trxid,modulation_t mod);
 #define MAX_PDT_LEVEL           (0x0FU)
 
 #define REGISTER_VALUE          (0x01U)

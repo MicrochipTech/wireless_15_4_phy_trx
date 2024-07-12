@@ -109,7 +109,7 @@ bool app_P2P_Phy_Init(void){
             sysTimerFlag.throughputSysTimer = 1000000U;
             appNwkParam.nPerTestPackets = 100U;
 #if defined(RF215V3)
-            PHY_SetMod(RF09);
+            PHY_SetMod(RF09,LEG_OQPSK);
 #endif
             return true;   
         }

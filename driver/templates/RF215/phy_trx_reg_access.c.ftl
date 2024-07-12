@@ -27,8 +27,12 @@
 /* === INCLUDES ============================================================ */
 #include "definitions.h"
 #include "../../../pal/inc/pal.h"
+#include "config/default/driver/IEEE_802154_PHY/phy/at86rf215/inc/trx_access_2.h"
+#else
 #include "../../at86rf/inc/phy_trx_reg_access.h"
+#endif
 
+static irq_handler_t irq_hdl_trx = NULL;
 
 void trx_reg_write(uint8_t addr, uint8_t value)
 {
@@ -102,8 +106,6 @@ uint8_t trx_reg_bit_read(uint8_t addr, uint8_t mask, uint8_t pos)
 }
 
 
-
-
 void trx_frame_write(uint8_t* buf, uint8_t length)
 {
     pal_trx_irq_dis();
@@ -127,9 +129,6 @@ void trx_frame_write(uint8_t* buf, uint8_t length)
     pal_trx_irq_en();
 
 }
-
-
-
 
 void trx_frame_read(uint8_t* buf, uint8_t length)
 {
@@ -212,4 +211,111 @@ void trx_sram_read(uint8_t addr, uint8_t *data, uint8_t length)
     SPI_SS_Set();
     pal_trx_irq_en();
     
+}
+
+void trx_read(uint16_t addr, uint8_t *data, uint16_t length)
+{
+    uint8_t temp1 = 0U;
+    uint16_t temp = 0U,temp2 = 0U;
+
+	/*Saving the current interrupt status & disabling the global interrupt
+	**/
+    pal_trx_irq_dis();//	DISABLE_TRX_INTERRUPT();
+	/* Prepare the command byte */
+	addr |= READ_ACCESS_COMMAND;
+    temp1 = addr>>8U; //rsh
+    temp2 = addr<<8U; //lsh
+    temp = temp2 | temp1;
+    
+	/* Start SPI transaction by pulling SEL low */
+    SPI_SS_Clear();
+    
+    /* Send the Read command byte */ 
+    while (${SELECTED_SERCOM}_IsBusy()){}
+    ${SELECTED_SERCOM}_Write(&temp, 2);
+
+    
+    while(${SELECTED_SERCOM}_IsBusy()){}
+    
+    ${SELECTED_SERCOM}_Read(data, length);
+
+    while(${SELECTED_SERCOM}_IsBusy()){}
+
+	/* Stop the SPI transaction by setting SEL high */
+    SPI_SS_Set();
+
+    
+	/*Restoring the interrupt status which was stored & enabling the global
+	 * interrupt */
+
+    pal_trx_irq_en();//	ENABLE_TRX_INTERRUPT();
+}
+
+void trx_write(uint16_t addr, uint8_t *data, uint16_t length)
+{
+        uint8_t temp1 = 0U;
+    uint16_t temp = 0U,temp2 = 0U;
+
+	/*Saving the current interrupt status & disabling the global interrupt
+	**/
+    pal_trx_irq_dis();//	DISABLE_TRX_INTERRUPT();
+	/* Prepare the command byte */
+	addr |= WRITE_ACCESS_COMMAND;
+//    temp = addr>>8U;
+    temp1 = addr>>8U; //rsh
+    temp2 = addr<<8U; //lsh
+    temp = temp2 | temp1;
+
+	/* Start SPI transaction by pulling SEL low */
+    SPI_SS_Clear();
+
+	/* Send the Read command byte */
+    while (${SELECTED_SERCOM}_IsBusy()){} 
+    
+    ${SELECTED_SERCOM}_Write(&temp, 2);
+    
+    /* Write the byte in the transceiver data register */
+    while (${SELECTED_SERCOM}_IsBusy()){}
+    
+    ${SELECTED_SERCOM}_Write(data, length);
+
+    while (${SELECTED_SERCOM}_IsBusy()){}
+
+	/* Stop the SPI transaction by setting SEL high */
+    SPI_SS_Set();
+
+	/*Restoring the interrupt status which was stored & enabling the global
+	 * interrupt */
+    pal_trx_irq_en();//	ENABLE_TRX_INTERRUPT();
+}
+
+void trx_irq_init(void * trx_irq_cb)
+{
+	/*
+	 * Set the handler function.
+	 * The handler is set before enabling the interrupt to prepare for
+	 * spurious
+	 * interrupts, that can pop up the moment they are enabled
+	 */
+	irq_hdl_trx = (irq_handler_t)trx_irq_cb;
+}
+
+uint8_t trx_bit_read(uint16_t addr, uint8_t mask, uint8_t pos)
+{
+	uint8_t ret;
+	ret = trx_reg_read(addr);
+	ret &= mask;
+	ret >>= pos;
+	return ret;
+}
+
+void trx_bit_write(uint16_t reg_addr, uint8_t mask, uint8_t pos,uint8_t new_value)
+{
+	uint8_t current_reg_value;
+	current_reg_value = trx_reg_read(reg_addr);
+	current_reg_value &= ~mask;
+	new_value <<= pos;
+	new_value &= mask;
+	new_value |= current_reg_value;
+	trx_reg_write(reg_addr, new_value);
 }
