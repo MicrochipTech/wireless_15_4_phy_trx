@@ -27,6 +27,7 @@
 /* === INCLUDES ============================================================ */
 #include "definitions.h"
 #include "../../../pal/inc/pal.h"
+#if defined(RF215V3)
 #include "config/default/driver/IEEE_802154_PHY/phy/at86rf215/inc/trx_access_2.h"
 #else
 #include "../../at86rf/inc/phy_trx_reg_access.h"
@@ -34,7 +35,7 @@
 
 static irq_handler_t irq_hdl_trx = NULL;
 
-void trx_reg_write(uint8_t addr, uint8_t value)
+void trx_reg_write(uint16_t addr, uint8_t value)
 {
     pal_trx_irq_dis();
 	/* Prepare the command byte */
@@ -59,7 +60,7 @@ void trx_reg_write(uint8_t addr, uint8_t value)
 }
 
 
-uint8_t trx_reg_read(uint8_t addr)
+uint8_t trx_reg_read(uint16_t addr)
 {
     pal_trx_irq_dis();
 	uint16_t register_value;
@@ -88,7 +89,7 @@ uint8_t trx_reg_read(uint8_t addr)
 }
 
 
-void trx_reg_bit_write(uint8_t addr, uint8_t mask, uint8_t pos, uint8_t value)
+void trx_reg_bit_write(uint16_t addr, uint8_t mask, uint8_t pos, uint8_t value)
 { 
   uint8_t reg;
   reg = trx_reg_read(addr);
@@ -97,7 +98,7 @@ void trx_reg_bit_write(uint8_t addr, uint8_t mask, uint8_t pos, uint8_t value)
 }
 
 
-uint8_t trx_reg_bit_read(uint8_t addr, uint8_t mask, uint8_t pos)
+uint8_t trx_reg_bit_read(uint16_t addr, uint8_t mask, uint8_t pos)
 {
   uint8_t reg;
   reg = trx_reg_read(addr);
@@ -113,7 +114,7 @@ void trx_frame_write(uint8_t* buf, uint8_t length)
 
 	/* Start SPI transaction by pulling SEL low */
     SPI_SS_Clear();
-	temp = TRX_CMD_FW;
+	temp |= WRITE_ACCESS_COMMAND;
 
     while (${SELECTED_SERCOM}_IsBusy()){}
     /* Send the command byte */
@@ -137,7 +138,7 @@ void trx_frame_read(uint8_t* buf, uint8_t length)
 	/* Start SPI transaction by pulling SEL low */
     SPI_SS_Clear();
 
-	temp = TRX_CMD_FR;
+	temp |= READ_ACCESS_COMMAND;
 
     while (${SELECTED_SERCOM}_IsBusy()){}
     /* Send the command byte */
@@ -162,7 +163,7 @@ void trx_sram_write(uint8_t addr, uint8_t *data, uint8_t length)
 	/* Start SPI transaction by pulling SEL low */
     SPI_SS_Clear();
     
-    temp = TRX_CMD_SW;
+    temp = 1;//TRX_CMD_SW;
 
     /* Send the command byte */
     while (${SELECTED_SERCOM}_IsBusy()){}
@@ -191,7 +192,7 @@ void trx_sram_read(uint8_t addr, uint8_t *data, uint8_t length)
 	/* Start SPI transaction by pulling SEL low */
     SPI_SS_Clear();
     
-    temp = TRX_CMD_SR;
+    temp = 1;//TRX_CMD_SR;
 
      /* Send the command byte */   
     while (${SELECTED_SERCOM}_IsBusy()){}

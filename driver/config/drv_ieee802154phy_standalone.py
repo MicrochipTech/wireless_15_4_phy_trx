@@ -511,8 +511,8 @@ def trxMethodUpdate(symbol, event):
         # condTrxTypeRF215 = [condTrxRF215, trxMethodUpdate, ['RF_HOST_SELECT_TRANSEIVER']]
         # print("condTrxTypeRF215",condTrxTypeRF215)
         preprocessorMacro = preprocessorCompiler.getValue()
-        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF233", ";RF215V3;SUPPORT_LEGACY_OQPSK;SUPPORT_OQPSK;SUPPORT_OFDM;SUPPORT_FSK;MULTI_TRX_SUPPORT;ENABLE_TFA;SUPPORT_MODE_SWITCH;TFA_CW;PROMISCUOUS_MODE;ENABLE_TFA; TFA_CW;")
-        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF212B", ";RF215V3;SUPPORT_LEGACY_OQPSK;SUPPORT_OQPSK;SUPPORT_OFDM;SUPPORT_FSK;MULTI_TRX_SUPPORT;ENABLE_TFA;SUPPORT_MODE_SWITCH;TFA_CW;PROMISCUOUS_MODE;ENABLE_TFA;TFA_CW;")
+        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF233", ";RF215V3;SUPPORT_LEGACY_OQPSK;SUPPORT_OQPSK;SUPPORT_OFDM;SUPPORT_FSK;MULTI_TRX_SUPPORT;ENABLE_TFA;SUPPORT_MODE_SWITCH;PROMISCUOUS_MODE;ENABLE_TFA;TFA_CW;")
+        preprocessorMacro = preprocessorMacro.replace(";PHY_AT86RF212B", ";RF215V3;SUPPORT_LEGACY_OQPSK;SUPPORT_OQPSK;SUPPORT_OFDM;SUPPORT_FSK;MULTI_TRX_SUPPORT;ENABLE_TFA;SUPPORT_MODE_SWITCH;PROMISCUOUS_MODE;ENABLE_TFA;TFA_CW;")
         preprocessorCompiler.setValue(preprocessorMacro)
         preprocessorCompiler.setEnabled(True)
     else:
